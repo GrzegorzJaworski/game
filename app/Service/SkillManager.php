@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Grzegorz Jaworski
- * Date: 08.07.2018
- * Time: 13:50
- */
 
 namespace App\Service;
 
@@ -50,7 +44,7 @@ class SkillManager
      */
     private function useMagicShield(Character $attacker, Character $defender): float
     {
-        return ($this->attack->strike($attacker, $defender))/2;
+        return ($this->attack->strike($attacker, $defender)) / 2;
     }
 
     /**
@@ -60,6 +54,6 @@ class SkillManager
      */
     private function useRapidStrike(Character $attacker, Character $defender): float
     {
-        return ($this->attack->strike($attacker, $defender))*2;
+        return ($this->attack->strike($attacker, $defender)) * 2;
     }
 }

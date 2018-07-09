@@ -14,6 +14,6 @@ class Attack
      */
     public function strike(Character $attacker, Character $defender): int
     {
-        return $attacker->getStrength()-$defender->getDefence();
+        return $attacker->getStrength() - $defender->getDefence();
     }
 }

@@ -4,6 +4,7 @@ namespace App\Service;
 
 
 use App\Model\Battle\BattleResult;
+use App\Model\Battle\Round;
 use App\Model\Character\Character;
 use App\Model\Character\Hero;
 use App\Model\Skill\Skill;
@@ -31,6 +32,7 @@ class BattleManager
      * @param Character $hero
      * @param Character $beast
      * @return BattleResult
+     * @throws \App\Exceptions\RoundsException
      */
     public function battle(Character $hero, Character $beast): BattleResult
     {
@@ -48,15 +50,15 @@ class BattleManager
             $round->setAttacker($attacker);
             $round->setDefender($defender);
 
-            if (!$this->lottery->doesHaveLuck($defender)){
+            if (!$this->lottery->doesHaveLuck($defender)) {
                 $fightResult = $this->fight($attacker, $defender);
-                $defender->setHealth($defender->getHealth()-$fightResult['damage']);
+                $defender->setHealth($defender->getHealth() - $fightResult['damage']);
 
                 $round->doesDefenderGetLucky(false);
                 $round->setDamage($fightResult['damage']);
                 $round->setUsedSkills($fightResult['usedSkills']);
                 $round->setDefenderHealth($defender);
-            }else {
+            } else {
                 $round->doesDefenderGetLucky(true);
                 $round->setDefenderHealth($defender);
             }
@@ -69,10 +71,10 @@ class BattleManager
         if ($hero->getHealth() == 0) {
             $winner = $beast;
             $loser = $hero;
-        }elseif ($beast->getHealth() == 0) {
+        } elseif ($beast->getHealth() == 0) {
             $winner = $hero;
             $loser = $beast;
-        }else {
+        } else {
             switch ($hero->getHealth() <=> $beast->getHealth()) {
                 case 1:
                     $winner = $hero;
@@ -108,9 +110,9 @@ class BattleManager
                 $attackerAndDefenderArray = ['attacker' => $hero, 'defender' => $beast];
                 break;
             case 0:
-                if ($hero->getLuck() >= $beast->getLuck()){
+                if ($hero->getLuck() >= $beast->getLuck()) {
                     $attackerAndDefenderArray = ['attacker' => $beast, 'defender' => $hero];
-                }else{
+                } else {
                     $attackerAndDefenderArray = ['attacker' => $hero, 'defender' => $beast];
                 }
                 break;
@@ -138,10 +140,10 @@ class BattleManager
 
         /** @var Skill $skill */
         foreach ($skills as $skill) {
-            if ($this->lottery->doesUseSkill($skill)){
+            if ($this->lottery->doesUseSkill($skill)) {
                 $damage += $skillManager->useSkill($skill, $attacker, $defender);
                 $usedSkills[] = $skill;
-            }else{
+            } else {
                 $damage = $this->attack->strike($attacker, $defender);
             }
         }

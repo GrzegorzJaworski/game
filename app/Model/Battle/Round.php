@@ -1,12 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Grzegorz Jaworski
- * Date: 08.07.2018
- * Time: 17:13
- */
 
-namespace App\Service;
+namespace App\Model\Battle;
 
 
 use App\Model\Character\Character;
@@ -54,16 +48,16 @@ class Round
 
     public function getHistory(): string
     {
-        $string = strtr(":name attacked. ", [':name'=>$this->attackerName]);
+        $string = strtr(":name attacked. ", [':name' => $this->attackerName]);
         if ($this->doesDefenderGetLucky) {
-            $string .= strtr(":name was lucky and avoided the attack. ", [':name'=>$this->defenderName]);
-        }else{
+            $string .= strtr(":name was lucky and avoided the attack. ", [':name' => $this->defenderName]);
+        } else {
             if (count($this->usedSkills) > 0) {
                 $string .= 'Hero use skill: ';
                 /** @var Skill $skill */
                 foreach ($this->usedSkills as $skill) {
                     $string .= $skill->getName();
-                    if( !next( $this->usedSkills ) ) {
+                    if (!next($this->usedSkills)) {
                         $string .= '. ';
                     } else {
                         $string .= ', ';
@@ -77,7 +71,7 @@ class Round
         }
 
         $health = $this->defenderHealth > 0 ? $this->defenderHealth : '0';
-        $string .= strtr("Defender has :defenderHealth healt. ", [":defenderHealth" => $health]);
+        $string .= strtr("Defender has :defenderHealth health.", [":defenderHealth" => $health]);
 
         return $string;
     }

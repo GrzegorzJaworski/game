@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model\Skill;
 
 abstract class Skill

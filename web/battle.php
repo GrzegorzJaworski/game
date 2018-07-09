@@ -1,4 +1,5 @@
 <?php
+
 use App\Service\Container;
 
 require '../vendor/autoload.php';
@@ -102,11 +103,11 @@ $battleManager = $container->getBattleManager();
             <div class="card-body">
                 <h3>Course of the fight:</h3>
                 <?php
-                foreach ($battleResult->getRounds() as $key => $round){
-                ?>
+                foreach ($battleResult->getRounds() as $key => $round) {
+                    ?>
                     <h5>Round <?php echo($key + 1); ?></h5>
                     <p><?php echo $round->getHistory(); ?> </p>
-                <?php
+                    <?php
                 }
                 ?>
             </div>

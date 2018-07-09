@@ -16,16 +16,19 @@ class Hero extends Character
      */
     public function __construct(array $characterData = [])
     {
-        if (count($characterData) > 0){
+        if (count($characterData) > 0) {
             parent::__construct($characterData);
-        }else{
-            $this->name = 'Orderus';
-            $this->health = mt_rand(70, 100);
-            $this->strength = mt_rand(70, 80);
-            $this->defence = mt_rand(45, 55);
-            $this->speed = mt_rand(40, 50);
-            $this->luck = mt_rand(10, 30);
         }
+
+        // if characterData doesn't have some property put default values
+        // if property value is 0 put 0
+        $this->name = empty($this->name) ? 'Orderus' : $this->name;
+        $this->health = empty($this->health) && !is_numeric($this->health) ? mt_rand(70, 100) : $this->health;
+        $this->strength = empty($this->strength) && !is_numeric($this->strength) ? mt_rand(70, 80) : $this->strength;
+        $this->defence = empty($this->defence) && !is_numeric($this->defence) ? mt_rand(45, 55) : $this->defence;
+        $this->speed = empty($this->speed) && !is_numeric($this->speed) ? mt_rand(40, 50) : $this->speed;
+        $this->luck = empty($this->luck) && !is_numeric($this->luck) ? mt_rand(10, 30) : $this->luck;
+
         $this->skills = [new MagicShield(), new RapidStrike()];
     }
 
@@ -34,7 +37,7 @@ class Hero extends Character
      */
     public function setSkill(Skill $skill)
     {
-        if (!in_array($skill, $this->skills)){
+        if (!in_array($skill, $this->skills)) {
             $this->skills[] = $skill;
         }
     }
@@ -57,14 +60,14 @@ class Hero extends Character
 
     public function getOffenseSkills(): array
     {
-        return array_filter($this->skills, function (Skill $skill){
+        return array_filter($this->skills, function (Skill $skill) {
             return $skill->getIsOffenseSkill() == true;
         });
     }
 
     public function getDefenseSkills(): array
     {
-        return array_filter($this->skills, function (Skill $skill){
+        return array_filter($this->skills, function (Skill $skill) {
             return $skill->getIsOffenseSkill() == false;
         });
     }

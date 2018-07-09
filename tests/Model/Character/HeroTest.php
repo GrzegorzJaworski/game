@@ -26,6 +26,11 @@ class HeroTest extends TestCase
         $this->assertInstanceOf(Hero::class, $this->hero);
     }
 
+    public function testGetName()
+    {
+        $this->assertEquals('Orderus', $this->hero->getName());
+    }
+
     public function testRangeOfHealth()
     {
         $this->assertGreaterThanOrEqual(70, $this->hero->getHealth());
@@ -56,11 +61,6 @@ class HeroTest extends TestCase
         $this->assertLessThanOrEqual(30, $this->hero->getLuck());
     }
 
-    public function testGetNoSkill()
-    {
-        $this->assertCount(0, $this->hero->getSkills());
-    }
-
     public function testSetSkill()
     {
         $this->hero->setSkill(new MagicShield());
@@ -79,5 +79,57 @@ class HeroTest extends TestCase
 
         $this->assertContainsOnly(Skill::class, $this->hero->getSkills());
         $this->assertCount(2, $this->hero->getSkills());
+    }
+
+    public function testGetOffenseSkills()
+    {
+        $this->assertCount(1, $this->hero->getOffenseSkills());
+    }
+
+    public function testGetDefenseSkills()
+    {
+        $this->assertCount(1, $this->hero->getDefenseSkills());
+    }
+
+    public function testInitiatingObjectWithData()
+    {
+        $hero = new Hero([
+            'name' => 'Test',
+            'health' => 80,
+            'strength' => 90,
+            'defence' => 50,
+            'speed' => 50,
+            'luck' => 30,
+        ]);
+
+        $this->assertInstanceOf(Hero::class, $hero);
+        $this->assertEquals('Test', $hero->getName());
+        $this->assertEquals(80, $hero->getHealth());
+        $this->assertEquals(90, $hero->getStrength());
+        $this->assertEquals(50, $hero->getDefence());
+        $this->assertEquals(50, $hero->getSpeed());
+        $this->assertEquals(30, $hero->getLuck());
+
+    }
+
+    public function testInitiatingObjectWithEmptyData()
+    {
+        $hero = new Hero([
+            'name' => '',
+            'health' => '',
+        ]);
+
+        $this->assertInstanceOf(Hero::class, $hero);
+        $this->assertEquals('Orderus', $hero->getName());
+        $this->assertGreaterThanOrEqual(70, $hero->getHealth());
+        $this->assertLessThanOrEqual(100, $hero->getHealth());
+        $this->assertGreaterThanOrEqual(70, $hero->getStrength());
+        $this->assertLessThanOrEqual(80, $hero->getStrength());
+        $this->assertGreaterThanOrEqual(45, $hero->getDefence());
+        $this->assertLessThanOrEqual(55, $hero->getDefence());
+        $this->assertGreaterThanOrEqual(40, $hero->getSpeed());
+        $this->assertLessThanOrEqual(50, $hero->getSpeed());
+        $this->assertGreaterThanOrEqual(10, $hero->getLuck());
+        $this->assertLessThanOrEqual(30, $hero->getLuck());
     }
 }

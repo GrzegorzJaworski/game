@@ -21,7 +21,7 @@ class Lottery
      * @param Skill $skill
      * @return bool
      */
-    public function doesUseSkill(Skill $skill):bool
+    public function doesUseSkill(Skill $skill): bool
     {
         return $this->probability($skill->getChanceOfUse());
     }

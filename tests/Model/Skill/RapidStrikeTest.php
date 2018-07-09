@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Model\Skill;
 
 use App\Model\Skill\RapidStrike;
@@ -21,6 +22,7 @@ class RapidStrikeTest extends TestCase
     {
         $this->assertInstanceOf(Skill::class, $this->rapidStrike);
     }
+
     public function testGetName()
     {
         $this->assertInternalType('string', $this->rapidStrike->getName());

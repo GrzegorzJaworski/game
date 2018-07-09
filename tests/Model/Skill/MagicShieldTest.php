@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Model\Skill;
 
 use App\Model\Skill\MagicShield;
@@ -21,6 +22,7 @@ class MagicShieldTest extends TestCase
     {
         $this->assertInstanceOf(Skill::class, $this->magicShield);
     }
+
     public function testGetName()
     {
         $this->assertInternalType('string', $this->magicShield->getName());

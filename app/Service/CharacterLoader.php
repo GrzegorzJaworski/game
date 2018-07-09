@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Grzegorz Jaworski
- * Date: 08.07.2018
- * Time: 15:41
- */
 
 namespace App\Service;
 
@@ -30,11 +24,19 @@ class CharacterLoader
         return new Beast();
     }
 
+    /**
+     * @param array $heroData
+     * @return Hero
+     */
     public function loadHero(array $heroData): Hero
     {
         return new Hero($heroData);
     }
 
+    /**
+     * @param $heroData
+     * @return Beast
+     */
     public function loadBeast($heroData): Beast
     {
         return new Beast($heroData);
