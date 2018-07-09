@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Model\Skill;
+namespace Tests\Service;
 
 
 use App\Service\BattleManager;
