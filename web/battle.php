@@ -7,22 +7,24 @@ $container = new Container();
 
 $characterLoader = $container->getCharacterLoader();
 
-$hero = $characterLoader->createHero();
-$beast = $characterLoader->createBeast();
+$heroData = $_POST['hero'] ?? null;
+$beastData = $_POST['beast'] ?? null;
 
-$errorMessage = '';
-if (isset($_GET['error'])) {
-    switch ($_GET['error']) {
-        case 'missing_data':
-            $errorMessage = 'One of the characters run away';
-            break;
-        case 'bad_characters':
-            $errorMessage = 'An unpredictable character appeared';
-            break;
-        default:
-            $errorMessage = 'There was problems. Try again.';
-    }
+if (!$heroData || !$heroData) {
+    header('Location: /index.php?error=missing_data');
+    die;
 }
+
+$hero = $characterLoader->loadHero($heroData);
+$beast = $characterLoader->loadBeast($beastData);
+//print_r($_POST['hero']);die;
+if (!$hero || !$beast) {
+    header('Location: /index.php?error=bad_characters');
+    die;
+}
+
+$battleManager = $container->getBattleManager();
+
 ?>
 
 <!doctype html>
@@ -40,11 +42,6 @@ if (isset($_GET['error'])) {
 </head>
 <body>
 <div class="container">
-    <?php if (!empty($errorMessage)): ?>
-        <div class="alert alert-danger" role="alert">
-            <?php echo $errorMessage ?>
-        </div>
-    <?php endif; ?>
     <div class="card-deck my-3">
         <div class="card mb-4 box-shadow">
             <div class="card-header">
@@ -69,21 +66,6 @@ if (isset($_GET['error'])) {
                 </dl>
             </div>
         </div>
-        <form class="my-auto" method="post" action="/battle.php">
-            <input type="hidden" name="hero[name]" value="<?php echo $hero->getName(); ?>">
-            <input type="hidden" name="hero[health]" value="<?php echo $hero->getHealth(); ?>">
-            <input type="hidden" name="hero[strength]" value="<?php echo $hero->getStrength(); ?>">
-            <input type="hidden" name="hero[defence]" value="<?php echo $hero->getDefence(); ?>">
-            <input type="hidden" name="hero[speed]" value="<?php echo $hero->getSpeed(); ?>">
-            <input type="hidden" name="hero[luck]" value="<?php echo $hero->getLuck(); ?>">
-            <input type="hidden" name="beast[name]" value="<?php echo $beast->getName(); ?>">
-            <input type="hidden" name="beast[health]" value="<?php echo $beast->getHealth(); ?>">
-            <input type="hidden" name="beast[strength]" value="<?php echo $beast->getStrength(); ?>">
-            <input type="hidden" name="beast[defence]" value="<?php echo $beast->getDefence(); ?>">
-            <input type="hidden" name="beast[speed]" value="<?php echo $beast->getSpeed(); ?>">
-            <input type="hidden" name="beast[luck]" value="<?php echo $beast->getLuck(); ?>">
-            <button type="submit" class="btn btn-danger">Fight!</button>
-        </form>
 
         <div class="card mb-4 box-shadow">
             <div class="card-header">
@@ -109,7 +91,27 @@ if (isset($_GET['error'])) {
             </div>
         </div>
     </div>
-
+    <?php
+    $battleResult = $battleManager->battle($hero, $beast);
+    ?>
+    <div class="card-deck my-3">
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <h4>Winner: <?php echo $battleResult->getWinner()->getName() ?? 'Draw'; ?></h4>
+            </div>
+            <div class="card-body">
+                <h3>Course of the fight:</h3>
+                <?php
+                foreach ($battleResult->getRounds() as $key => $round){
+                ?>
+                    <h5>Round <?php echo($key + 1); ?></h5>
+                    <p><?php echo $round->getHistory(); ?> </p>
+                <?php
+                }
+                ?>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Optional JavaScript -->

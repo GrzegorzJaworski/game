@@ -4,12 +4,17 @@ namespace App\Model\Character;
 
 class Beast extends Character
 {
-    public function __construct()
+    public function __construct(array $characterData = [])
     {
-        $this->health = rand(60, 90);
-        $this->strength = rand(60, 90);
-        $this->defence = rand(40, 60);
-        $this->speed = rand(40, 60);
-        $this->luck = rand(25, 40);
+        if (count($characterData) > 0) {
+            parent::__construct($characterData);
+        } else {
+            $this->name = ('Beast');
+            $this->health = mt_rand(60, 90);
+            $this->strength = mt_rand(60, 90);
+            $this->defence = mt_rand(40, 60);
+            $this->speed = mt_rand(40, 60);
+            $this->luck = mt_rand(25, 40);
+        }
     }
 }

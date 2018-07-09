@@ -1,18 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Grzesiek
- * Date: 06.07.2018
- * Time: 11:19
- */
-
 namespace App\Model\Skill;
-
 
 abstract class Skill
 {
     protected $name;
-    protected $offenseSkill;
+    protected $isOffenseSkill;
     protected $chanceOfUse;
 
     /**
@@ -26,9 +18,9 @@ abstract class Skill
     /**
      * @return bool
      */
-    public function getOffenseSkill(): bool
+    public function getIsOffenseSkill(): bool
     {
-        return $this->offenseSkill;
+        return $this->isOffenseSkill;
     }
 
     /**
@@ -38,6 +30,4 @@ abstract class Skill
     {
         return $this->chanceOfUse;
     }
-
-
 }

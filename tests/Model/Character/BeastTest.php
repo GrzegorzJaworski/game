@@ -8,6 +8,9 @@ use PHPUnit\Framework\TestCase;
 
 class BeastTest extends TestCase
 {
+    /**
+     * @var Beast
+     */
     private $beast;
 
     protected function setUp()

@@ -18,7 +18,7 @@ class HeroTest extends TestCase
 
     protected function setUp()
     {
-        $this->hero = new Hero('Orderus');
+        $this->hero = new Hero();
     }
 
     public function testHeroInstance()

@@ -3,17 +3,21 @@
 namespace App\Model\Character;
 
 
-use App\Model\Skill\Skill;
-
 abstract class Character
 {
-    protected $skills = [];
     protected $name;
     protected $health;
     protected $strength;
     protected $defence;
     protected $speed;
     protected $luck;
+
+    public function __construct(array $characterData = [])
+    {
+        foreach ($characterData as $key => $data) {
+            $this->$key = $data;
+        }
+    }
 
     /**
      * @return string
@@ -24,9 +28,9 @@ abstract class Character
     }
 
     /**
-     * @return int
+     * @return float
      */
-    public function getHealth(): int
+    public function getHealth(): float
     {
         return $this->health;
     }
@@ -69,31 +73,5 @@ abstract class Character
     public function setHealth($health): void
     {
         $this->health = $health;
-    }
-
-    /**
-     * @param Skill $skill
-     */
-    public function setSkill(Skill $skill)
-    {
-        if (!in_array($skill, $this->skills)){
-            $this->skills[] = $skill;
-        }
-    }
-
-    /**
-     * @param array $skills
-     */
-    public function setSkills(array $skills)
-    {
-        $this->skills = array_unique(array_merge($this->skills, $skills), SORT_REGULAR);
-    }
-
-    /**
-     * @return array|Skill
-     */
-    public function getSkills(): array
-    {
-        return $this->skills;
     }
 }
