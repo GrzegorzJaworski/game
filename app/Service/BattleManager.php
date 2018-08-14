@@ -68,10 +68,10 @@ class BattleManager
             $defender = $temp;
         }
 
-        if ($hero->getHealth() == 0) {
+        if ($hero->getHealth() <= 0) {
             $winner = $beast;
             $loser = $hero;
-        } elseif ($beast->getHealth() == 0) {
+        } elseif ($beast->getHealth() <= 0) {
             $winner = $hero;
             $loser = $beast;
         } else {
